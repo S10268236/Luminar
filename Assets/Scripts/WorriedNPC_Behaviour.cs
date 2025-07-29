@@ -80,7 +80,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             {
                 if (Target != null)
                 {
-                    StartCoroutine(SwitchState("ChaseTarget"));
+                    StartCoroutine(SwitchState("ApproachPlayer"));
                     yield break;
                 }
                 yield return null;
