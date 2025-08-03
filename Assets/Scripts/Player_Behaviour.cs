@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 /*
@@ -13,6 +14,15 @@ public class Player_Behaviour : MonoBehaviour
     //Allow setting of position for Raycast to start from
     [SerializeField]
     Transform rayStart;
+    bool canInteract = false;
+    /// <summary>
+    /// Interact Message stuff
+    /// </summary>
+    [SerializeField]
+    TextMeshProUGUI InteractMessage;
+    WorriedNPC_Behaviour currentWorriedNPC = null;
+    Terminal_Behaviour currentTerminal = null;
+
 
     void Update()
     {
@@ -23,6 +33,41 @@ public class Player_Behaviour : MonoBehaviour
         if (Physics.Raycast(rayStart.position, rayStart.forward, out hitInfo, interactionDistance))
         {
             //Debug.Log("Interactable: " + hitInfo.collider.gameObject.name);
+            if (hitInfo.collider.gameObject.CompareTag("NPC"))
+            {
+                InteractMessage.text = "[E] Interact";
+                canInteract = true;
+                currentWorriedNPC = hitInfo.collider.gameObject.GetComponent<WorriedNPC_Behaviour>();
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("Terminal"))
+            {
+                InteractMessage.text = "[E] Access";
+                canInteract = true;
+                currentTerminal = hitInfo.collider.gameObject.GetComponent<Terminal_Behaviour>();
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("Untagged"))
+            {
+                ResetRaycast();
+            }
+        }
+        else
+        {
+            ResetRaycast();
+        }
+    }
+    private void ResetRaycast()
+    {
+        canInteract = false;
+        InteractMessage.text = null;
+    }
+    public void OnInteract()
+    {
+        if (canInteract)
+        {
+            if (currentWorriedNPC != null)
+            {
+                
+            }
         }
     }
 }
