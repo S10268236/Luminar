@@ -76,7 +76,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         {
             Transform CurrentPatrolPoint = patrolPoints[currentPatrolIndex];
             NavPoint.SetDestination(CurrentPatrolPoint.position);
-            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 0.1f)
+            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 0.5f)
             {
                 if (Target != null)
                 {
