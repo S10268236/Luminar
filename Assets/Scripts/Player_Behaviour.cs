@@ -22,6 +22,8 @@ public class Player_Behaviour : MonoBehaviour
     TextMeshProUGUI InteractMessage;
     WorriedNPC_Behaviour currentWorriedNPC = null;
     Terminal_Behaviour currentTerminal = null;
+    [SerializeField]
+    GameObject GameUIPanel;
 
 
     void Update()
@@ -66,7 +68,7 @@ public class Player_Behaviour : MonoBehaviour
         {
             if (currentWorriedNPC != null)
             {
-                
+                GameUIPanel.SetActive(true);
             }
         }
     }
