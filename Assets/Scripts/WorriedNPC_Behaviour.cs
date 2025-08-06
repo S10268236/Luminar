@@ -18,6 +18,8 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     public Player_Behaviour PlayerObject;
     //Access Interact Message for enabling and disabling
     public GameObject InteractMessage;
+    [SerializeField]
+    Transform PlayerPosition;
 
 
     void Awake()
@@ -31,7 +33,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     IEnumerator Idle()
     {
-        Debug.Log("Going Idle");
+        //Debug.Log("Going Idle");
         while (currentState == "Idle")
         {
             if (Target != null)
@@ -44,7 +46,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     IEnumerator ApproachPlayer()
     {
-        //Debug.Log("Chasing!");
+        Debug.Log("Chasing!");
         while (currentState == "ApproachPlayer")
         {
             //Set destination to players position
@@ -89,7 +91,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     IEnumerator Patrolling()
     {
-        Debug.Log("Starting Patrol");
+        //Debug.Log("Starting Patrol");
         while (currentState == "Patrolling")
         {
             Transform CurrentPatrolPoint = patrolPoints[currentPatrolIndex];
@@ -103,7 +105,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
                 }
                 yield return null;
             }
-            Debug.Log("Next Point!");
+            //Debug.Log("Next Point!");
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
             yield return StartCoroutine(SwitchState("Idle"));
         }
@@ -112,11 +114,13 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("PLAYER!!");
             Target = other.transform;
         }
     }
     void OnTriggerExit(Collider other)
     {
+        
         if (other.CompareTag("Player"))
         {
             Target = null;

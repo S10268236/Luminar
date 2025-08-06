@@ -21,6 +21,11 @@ public class Player_Behaviour : MonoBehaviour
     /// </summary>
     [SerializeField]
     TextMeshProUGUI InteractMessage;
+    /// <summary>
+    /// Interact Message Game object
+    /// </summary>
+    [SerializeField]
+    public GameObject InteractMessageState;
     WorriedNPC_Behaviour currentWorriedNPC = null;
     Terminal_Behaviour currentTerminal = null;
     [SerializeField]
@@ -78,6 +83,7 @@ public class Player_Behaviour : MonoBehaviour
                 SetMoveCamState(false);
                 SetCursorState(true);
                 StartConvo();
+                InteractMessageState.SetActive(false);
             }
         }
     }

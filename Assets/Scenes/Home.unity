@@ -2355,6 +2355,7 @@ MonoBehaviour:
   interactionDistance: 4
   rayStart: {fileID: 434635612}
   InteractMessage: {fileID: 1465019651}
+  InteractMessageState: {fileID: 1465019649}
   ConvoPanel: {fileID: 1086944673}
 --- !u!4 &382980537 stripped
 Transform:
@@ -3383,13 +3384,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581635104}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.22, y: 0, z: 4.46}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 25.9, y: 1, z: 10.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 694551240}
-  m_Father: {fileID: 1847745830}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &581678630
 PrefabInstance:
@@ -4393,13 +4394,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730378057}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.45, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 29.42, y: 1, z: 1.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1940918109}
-  m_Father: {fileID: 1847745830}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &736068953 stripped
 Transform:
@@ -4917,6 +4918,7 @@ MonoBehaviour:
   QuestSolved: 0
   PlayerObject: {fileID: 377479845}
   InteractMessage: {fileID: 1465019649}
+  PlayerPosition: {fileID: 0}
 --- !u!136 &845275337
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5008,7 +5010,6 @@ Transform:
   m_Children:
   - {fileID: 1213280422}
   - {fileID: 1197789580}
-  - {fileID: 1847745830}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &846667172
@@ -7149,7 +7150,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2.95}
-  m_LocalScale: {x: 2.261616, y: 1.5949016, z: 5.041481}
+  m_LocalScale: {x: 2.571005, y: 2.6037893, z: 5.041481}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 845275340}
@@ -8080,6 +8081,7 @@ MonoBehaviour:
   QuestSolved: 0
   PlayerObject: {fileID: 377479845}
   InteractMessage: {fileID: 1465019649}
+  PlayerPosition: {fileID: 0}
 --- !u!195 &1293171503
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8712,13 +8714,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431418429}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 5.38}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.58, y: 1, z: 7.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1587674485}
-  m_Father: {fileID: 1847745830}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1435737520 stripped
 Transform:
@@ -11892,16 +11894,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1847745829}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.58, y: 1, z: 1.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 730378058}
-  - {fileID: 581635105}
-  - {fileID: 1431418430}
-  - {fileID: 2024697111}
-  m_Father: {fileID: 845275340}
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1849161102 stripped
 Transform:
@@ -13864,12 +13862,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024697110}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.58, y: 1, z: 1.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1847745830}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2027461800 stripped
 Transform:
@@ -15439,6 +15437,11 @@ SceneRoots:
   - {fileID: 1293171501}
   - {fileID: 1734889618}
   - {fileID: 845275340}
+  - {fileID: 730378058}
+  - {fileID: 581635105}
+  - {fileID: 1431418430}
+  - {fileID: 2024697111}
+  - {fileID: 1847745830}
   - {fileID: 1770343251}
   - {fileID: 1446034777}
   - {fileID: 118501602}
