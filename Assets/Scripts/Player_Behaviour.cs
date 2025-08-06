@@ -77,9 +77,13 @@ public class Player_Behaviour : MonoBehaviour
             {
                 SetMoveCamState(false);
                 SetCursorState(true);
-                ConvoPanel.SetActive(!ConvoPanel.activeSelf);
+                StartConvo();
             }
         }
+    }
+    public void StartConvo()
+    {
+        ConvoPanel.SetActive(!ConvoPanel.activeSelf);
     }
     /// <summary>
     /// Lock player camera and position
@@ -108,5 +112,9 @@ public class Player_Behaviour : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
         }
+    }
+    public void NPCFaceYou()
+    {
+        //
     }
 }

@@ -9,24 +9,24 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     Transform Target;
     [SerializeField]
     string currentState = "Idle";
-    [SerializeField]
-    Transform WorryPoint1;
-    [SerializeField]
-    Transform WorryPoint2;
-    [SerializeField]
-    Transform WorryPoint3;
-    [SerializeField]
-    Transform WorryPoint4;
     public Transform[] patrolPoints;
     private int currentPatrolIndex = 0;
+    //Trigger for whether NPC returns to patrol or is pacified and returns to original position
+    public bool QuestSolved = false;
+    //Access Player_behaviour
+
+    public Player_Behaviour PlayerObject;
+    //Access Interact Message for enabling and disabling
+    public GameObject InteractMessage;
+
 
     void Awake()
     {
         NavPoint = GetComponent<NavMeshAgent>();
+        //Assign player behaviour script for access
     }
     void Start()
     {
-        patrolPoints = new Transform[] { WorryPoint1, WorryPoint2, WorryPoint3, WorryPoint4 };
         StartCoroutine(currentState);
     }
     IEnumerator Idle()
@@ -44,12 +44,30 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     IEnumerator ApproachPlayer()
     {
-        Debug.Log("Chasing!");
+        //Debug.Log("Chasing!");
         while (currentState == "ApproachPlayer")
         {
+            //Set destination to players position
             yield return null;
             NavPoint.SetDestination(Target.position);
-            if (Target == null)
+            //if player leaves triggerzone, change back to idle
+            //Stop chasing when at this distance
+            if (Vector3.Distance(transform.position, Target.position) <= 3f)
+            {
+                QuestSolved = true;
+                NavPoint.SetDestination(transform.position);
+                StopAllCoroutines();
+                //Lock Player Position and camera
+                PlayerObject.SetMoveCamState(false);
+                //Enable cursor
+                PlayerObject.SetCursorState(true);
+                //Display Conversation window
+                PlayerObject.StartConvo();
+                //Disable Interaction message 
+                InteractMessage.SetActive(false);
+                yield break;
+            }
+            else if (Target == null)
             {
                 //change state to Idle
                 StartCoroutine(SwitchState("Idle"));
@@ -76,7 +94,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         {
             Transform CurrentPatrolPoint = patrolPoints[currentPatrolIndex];
             NavPoint.SetDestination(CurrentPatrolPoint.position);
-            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 0.5f)
+            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 0.8f)
             {
                 if (Target != null)
                 {
@@ -102,7 +120,19 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Target = null;
-            StartCoroutine(SwitchState("Idle"));
+            if (!QuestSolved)
+            {
+                StartCoroutine(SwitchState("Idle"));
+            }
+            else
+            {
+                StartCoroutine(Pacified());
+            }
         }
+    }
+    IEnumerator Pacified()
+    {
+        NavPoint.SetDestination(patrolPoints[0].position);
+        yield return null;
     }
 }
