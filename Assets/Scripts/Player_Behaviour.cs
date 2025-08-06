@@ -1,3 +1,4 @@
+using StarterAssets;
 using TMPro;
 using UnityEngine;
 
@@ -23,7 +24,13 @@ public class Player_Behaviour : MonoBehaviour
     WorriedNPC_Behaviour currentWorriedNPC = null;
     Terminal_Behaviour currentTerminal = null;
     [SerializeField]
-    GameObject GameUIPanel;
+    GameObject ConvoPanel;
+    //Target Player Controller script to lock movement and camera rotation
+    private FirstPersonController ControlFirstPerson;
+    void Awake()
+    {
+        ControlFirstPerson = GetComponent<FirstPersonController>();
+    }
 
 
     void Update()
@@ -68,8 +75,38 @@ public class Player_Behaviour : MonoBehaviour
         {
             if (currentWorriedNPC != null)
             {
-                GameUIPanel.SetActive(true);
+                SetMoveCamState(false);
+                SetCursorState(true);
+                ConvoPanel.SetActive(!ConvoPanel.activeSelf);
             }
+        }
+    }
+    /// <summary>
+    /// Lock player camera and position
+    /// </summary>
+    /// <param name="MoveCamState"></param>
+    public void SetMoveCamState(bool MoveCamState)
+    {
+        //Lock Player movement
+        ControlFirstPerson.canMove = MoveCamState;
+        //Lock Camera movement
+        ControlFirstPerson.CameraMove = MoveCamState;
+    }
+    /// <summary>
+    /// Allow locking of cursor and setting visibility
+    /// </summary>
+    /// <param name="CursorState"></param>
+    public void SetCursorState(bool CursorState)
+    {
+        if (CursorState == true)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
         }
     }
 }
