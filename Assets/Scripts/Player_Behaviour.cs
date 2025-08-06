@@ -49,6 +49,7 @@ public class Player_Behaviour : MonoBehaviour
             //Debug.Log("Interactable: " + hitInfo.collider.gameObject.name);
             if (hitInfo.collider.gameObject.CompareTag("NPC"))
             {
+                Debug.Log("Collided with: " + hitInfo.collider.gameObject.name);
                 InteractMessage.text = "[E] Interact";
                 canInteract = true;
                 currentWorriedNPC = hitInfo.collider.gameObject.GetComponent<WorriedNPC_Behaviour>();

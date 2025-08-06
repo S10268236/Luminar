@@ -46,7 +46,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     IEnumerator ApproachPlayer()
     {
-        Debug.Log("Chasing!");
+        //Debug.Log("Chasing!");
         while (currentState == "ApproachPlayer")
         {
             //Set destination to players position
@@ -58,7 +58,6 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             {
                 QuestSolved = true;
                 NavPoint.SetDestination(transform.position);
-                StopAllCoroutines();
                 //Lock Player Position and camera
                 PlayerObject.SetMoveCamState(false);
                 //Enable cursor
@@ -67,6 +66,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
                 PlayerObject.StartConvo();
                 //Disable Interaction message 
                 InteractMessage.SetActive(false);
+                StopAllCoroutines();
                 yield break;
             }
             else if (Target == null)
@@ -114,7 +114,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("PLAYER!!");
+            //Debug.Log("PLAYER!!");
             Target = other.transform;
         }
     }
