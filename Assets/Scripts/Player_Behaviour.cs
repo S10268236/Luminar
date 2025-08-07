@@ -29,7 +29,7 @@ public class Player_Behaviour : MonoBehaviour
     WorriedNPC_Behaviour currentWorriedNPC = null;
     Terminal_Behaviour currentTerminal = null;
     [SerializeField]
-    GameObject ConvoPanel;
+    public GameObject ConvoPanel;
     //Target Player Controller script to lock movement and camera rotation
     private FirstPersonController ControlFirstPerson;
     //Bool for knowing whether game is paused
@@ -89,6 +89,8 @@ public class Player_Behaviour : MonoBehaviour
                 SetCursorState(true);
                 StartConvo();
                 InteractMessageState.SetActive(false);
+                currentWorriedNPC.LookAtPlayer();
+                currentWorriedNPC.QuestSolved = true;
             }
         }
     }

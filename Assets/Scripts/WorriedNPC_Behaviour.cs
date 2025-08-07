@@ -20,6 +20,8 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     public GameObject InteractMessage;
     [SerializeField]
     Transform PlayerPosition;
+    //Checks if player is within collider
+    private bool FinishedConvo = false;
 
 
     void Awake()
@@ -30,6 +32,11 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     void Start()
     {
         StartCoroutine(currentState);
+    }
+    public void LookAtPlayer()
+    {
+        NavPoint.SetDestination(transform.position);
+        transform.LookAt(PlayerPosition.position);
     }
     IEnumerator Idle()
     {
@@ -54,7 +61,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             NavPoint.SetDestination(Target.position);
             //if player leaves triggerzone, change back to idle
             //Stop chasing when at this distance
-            if (Vector3.Distance(transform.position, Target.position) <= 3f)
+            if (Vector3.Distance(transform.position, Target.position) <= 3f && !QuestSolved)
             {
                 QuestSolved = true;
                 NavPoint.SetDestination(transform.position);
@@ -124,6 +131,8 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Target = null;
+            FinishedConvo = true;
+            Debug.Log("FinishedConvo is true");
             if (!QuestSolved)
             {
                 StartCoroutine(SwitchState("Idle"));
@@ -136,7 +145,15 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     IEnumerator Pacified()
     {
-        NavPoint.SetDestination(patrolPoints[0].position);
-        yield return null;
+        QuestSolved = true;
+        if (FinishedConvo)
+        {
+            NavPoint.SetDestination(patrolPoints[0].position);
+            yield return null;
+        }
+        else
+        {
+            yield return null;
+        }
     }
 }
