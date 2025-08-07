@@ -32,6 +32,10 @@ public class Player_Behaviour : MonoBehaviour
     GameObject ConvoPanel;
     //Target Player Controller script to lock movement and camera rotation
     private FirstPersonController ControlFirstPerson;
+    //Bool for knowing whether game is paused
+    public bool isPaused = false;
+    //Access PauseMenu behaviour
+    public PauseMenu_Behaviour EscPressed;
     void Awake()
     {
         ControlFirstPerson = GetComponent<FirstPersonController>();
@@ -49,7 +53,7 @@ public class Player_Behaviour : MonoBehaviour
             //Debug.Log("Interactable: " + hitInfo.collider.gameObject.name);
             if (hitInfo.collider.gameObject.CompareTag("NPC"))
             {
-                Debug.Log("Collided with: " + hitInfo.collider.gameObject.name);
+                //Debug.Log("Collided with: " + hitInfo.collider.gameObject.name);
                 InteractMessage.text = "[E] Interact";
                 canInteract = true;
                 currentWorriedNPC = hitInfo.collider.gameObject.GetComponent<WorriedNPC_Behaviour>();
@@ -123,5 +127,21 @@ public class Player_Behaviour : MonoBehaviour
     public void NPCFaceYou()
     {
         //
+    }
+    public void OnPause()
+    {
+        //Debug.Log("Paused?");
+        if (!isPaused)
+        {
+            EscPressed.PauseGame();
+            isPaused = true;
+            InteractMessageState.SetActive(false);
+        }
+        else
+        {
+            EscPressed.ResumeGame();
+            isPaused = false;
+            InteractMessageState.SetActive(true);
+        }
     }
 }
