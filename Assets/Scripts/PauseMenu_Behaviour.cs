@@ -14,6 +14,7 @@ public class PauseMenu_Behaviour : MonoBehaviour
             Time.timeScale = 0f;
             PlayerObject.SetMoveCamState(false);
             PlayerObject.SetCursorState(true);
+            
         }
     }
     public void ResumeGame()
