@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int chips = 0;
     public static GameManager instance;
     void Awake()
     {
@@ -16,5 +17,9 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
+    public void AddPoints(int points)
+    {
+        chips += points;
     }
 }
