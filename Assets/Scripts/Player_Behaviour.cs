@@ -90,13 +90,12 @@ public class Player_Behaviour : MonoBehaviour
                 StartConvo();
                 InteractMessageState.SetActive(false);
                 currentWorriedNPC.LookAtPlayer();
-                currentWorriedNPC.QuestSolved = true;
             }
         }
     }
     public void StartConvo()
     {
-        ConvoPanel.SetActive(!ConvoPanel.activeSelf);
+        ConvoPanel.SetActive(true);
     }
     /// <summary>
     /// Lock player camera and position
@@ -126,10 +125,6 @@ public class Player_Behaviour : MonoBehaviour
             Cursor.visible = false;
         }
     }
-    public void NPCFaceYou()
-    {
-        //
-    }
     public void OnPause()
     {
         //Debug.Log("Paused?");
@@ -146,4 +141,8 @@ public class Player_Behaviour : MonoBehaviour
             InteractMessageState.SetActive(true);
         }
     }
+    // public void TurnToNPC(Vector3 NPCtransform)
+    // {
+    //     transform.LookAt(NPCtransform);
+    // }
 }

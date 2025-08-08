@@ -22,6 +22,14 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     Transform PlayerPosition;
     //Checks if player is within collider
     private bool FinishedConvo = false;
+    //Checks if already interacted with-to prevent repeat code
+    public bool hasInteracted = false;
+    //Access Convo Panel
+    [SerializeField]
+    GameObject ConvoPanel;
+    //Store this approaching NPC's position
+    public Vector3 NPCPosition;
+    
 
 
     void Awake()
@@ -35,8 +43,19 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     public void LookAtPlayer()
     {
-        NavPoint.SetDestination(transform.position);
+        StopAllCoroutines();
         transform.LookAt(PlayerPosition.position);
+        NavPoint.SetDestination(transform.position);
+        hasInteracted = true;
+        QuestSolved = true;
+        //Lock Player Position and camera
+        PlayerObject.SetMoveCamState(false);
+        //Enable cursor
+        PlayerObject.SetCursorState(true);
+        //Display Conversation window
+        PlayerObject.StartConvo();
+        //Disable Interaction message 
+        InteractMessage.SetActive(false);
     }
     IEnumerator Idle()
     {
@@ -59,10 +78,17 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             //Set destination to players position
             yield return null;
             NavPoint.SetDestination(Target.position);
-            //if player leaves triggerzone, change back to idle
             //Stop chasing when at this distance
-            if (Vector3.Distance(transform.position, Target.position) <= 3f && !QuestSolved)
+            if (Vector3.Distance(transform.position, Target.position) <= 3f && !hasInteracted)
             {
+                //Set Variable's position to this NPC's position
+                // NPCPosition = transform.position;
+                // NPCPosition.y = transform.position.y;
+                // //NPCPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+                // //Make Player look at NPC
+                // PlayerObject.TurnToNPC(NPCPosition);
+                hasInteracted = true;
                 QuestSolved = true;
                 NavPoint.SetDestination(transform.position);
                 //Lock Player Position and camera
@@ -145,7 +171,6 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     IEnumerator Pacified()
     {
-        QuestSolved = true;
         if (FinishedConvo)
         {
             NavPoint.SetDestination(patrolPoints[0].position);
