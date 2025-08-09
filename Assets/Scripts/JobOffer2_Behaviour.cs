@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JobOffer1_Behaviour : MonoBehaviour
+public class JobOffer2_Behaviour : MonoBehaviour
 {
     //Check whether tools are being used
     public bool InvestigationOn = false;
@@ -13,15 +13,15 @@ public class JobOffer1_Behaviour : MonoBehaviour
     public GameManager GamePoints;
     public int PointWeight;
     //Track Highest Point recieved storage
-    public int JO1Points;
+    public int JO2Points = 0;
     //Store current score
-    private int JO1current;
+    private int JO2current;
     //Increased score to add to General score
     public int BetterScore;
     //Points recieved text
     public TextMeshProUGUI PointResult;
     //Max Points
-    private int Maximum = 6;
+    private int Maximum = 8;
     public TextMeshProUGUI MaxPoints;
     //Show Results Screen
     [SerializeField]
@@ -43,11 +43,15 @@ public class JobOffer1_Behaviour : MonoBehaviour
     Toggle Pressure;
     [SerializeField]
     Toggle SusLink;
+    [SerializeField]
+    Toggle CompanyIncons;
+    [SerializeField]
+    Toggle UpfrontFees;
     void Start()
     {
         ResultsScreen.SetActive(false);
-        JO1Points = 0;
-        JO1current = 0;
+        JO2Points = 0;
+        JO2current = 0;
     }
     public void InvestigateToolName()
     {
@@ -72,70 +76,84 @@ public class JobOffer1_Behaviour : MonoBehaviour
             ToolResult.text = "This person is not in your contacts";
         }
     }
-    public void ScamURL()
+    public void CompanyNameInvestigate()
     {
-        if (!InvestigationOn)
+        if (InvestigationOn)
         {
-            StartCoroutine(CrashGame());
-        }
-        else if (InvestigationOn)
-        {
-            ToolResult.text = "Link does not seem to be an official LinkedIn page";
+            ToolResult.text = "This company exists";
         }
     }
-    IEnumerator CrashGame()
+    public void IDInvestigate()
     {
-        ToolResult.text = "You have failed the tutorial due to the link hacking into the game, Goodbye.";
-        yield return new WaitForSeconds(3);
-        Application.Quit();
+        if (InvestigationOn)
+        {
+            ToolResult.text = "CompanyID is registered under Santrandus Pte.Ltd";
+        }
+    }
+    public void SalaryInvestigate()
+    {
+        if (InvestigationOn)
+        {
+            ToolResult.text = "Market records show this income to be about 300% above the average income";
+        }
     }
     private void TrackHighScore()
     {
-        JO1current += PointWeight;
-
+        JO2current += PointWeight;
     }
     public void Results()
     {
         if (Source.isOn)
         {
             TrackHighScore();
-            //Debug.Log("Source" + JO1current);
+            //Debug.Log("Source" + JO2current);
         }
-        if (SGError.isOn)
+        if (!SGError.isOn)
         {
             TrackHighScore();
-            //Debug.Log("Error" + JO1current);
+            //Debug.Log("Source" + JO2current);
         }
         if (!InfoRequest.isOn)
         {
             TrackHighScore();
-            //Debug.Log("Info" + JO1current);
+            //Debug.Log("Source" + JO2current);
         }
-        if (!TGTBT.isOn)
+        if (TGTBT.isOn)
         {
             TrackHighScore();
-            //Debug.Log("TGT" + JO1current);
+            //Debug.Log("Source" + JO2current);
         }
-        if (!Pressure.isOn)
+        if (Pressure.isOn)
         {
             TrackHighScore();
-            //Debug.Log("Pressure" + JO1current);
+            //Debug.Log("Source" + JO2current);
         }
-        if (SusLink.isOn)
+        if (!SusLink.isOn)
         {
             TrackHighScore();
-            //Debug.Log("SusLink" + JO1current);
+            //Debug.Log("Source" + JO2current);
         }
-        PointResult.text = JO1current.ToString();
+        if (CompanyIncons.isOn)
+        {
+            TrackHighScore();
+            //Debug.Log("Source" + JO2current);
+        }
+        if (!UpfrontFees.isOn)
+        {
+            TrackHighScore();
+            //Debug.Log("Source" + JO2current);
+        }
+
+        PointResult.text = JO2current.ToString();
         MaxPoints.text = Maximum.ToString();
-        if (JO1current > JO1Points)
+        if (JO2current > JO2Points)
         {
-            BetterScore = JO1current - JO1Points;
-            JO1Points = JO1current;
+            BetterScore = JO2current - JO2Points;
+            JO2Points = JO2current;
             GamePoints.AddPoints(BetterScore);
         }
-        JO1current = 0;
-        Debug.Log(JO1Points);
+        JO2current = 0;
+        Debug.Log(JO2Points);
     }
     public void WrongVerdict()
     {

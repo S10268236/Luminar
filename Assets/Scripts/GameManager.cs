@@ -25,5 +25,6 @@ public class GameManager : MonoBehaviour
     public void AddPoints(int points)
     {
         chips += points;
+        Debug.Log("Chip Score: " + chips);
     }
 }
