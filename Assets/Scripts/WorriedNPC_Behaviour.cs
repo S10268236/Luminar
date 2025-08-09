@@ -48,14 +48,8 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         NavPoint.SetDestination(transform.position);
         hasInteracted = true;
         QuestSolved = true;
-        //Lock Player Position and camera
-        PlayerObject.SetMoveCamState(false);
-        //Enable cursor
-        PlayerObject.SetCursorState(true);
         //Display Conversation window
         PlayerObject.StartConvo();
-        //Disable Interaction message 
-        InteractMessage.SetActive(false);
     }
     IEnumerator Idle()
     {
@@ -91,14 +85,8 @@ public class WorriedNPC_Behaviour : MonoBehaviour
                 hasInteracted = true;
                 QuestSolved = true;
                 NavPoint.SetDestination(transform.position);
-                //Lock Player Position and camera
-                PlayerObject.SetMoveCamState(false);
-                //Enable cursor
-                PlayerObject.SetCursorState(true);
                 //Display Conversation window
                 PlayerObject.StartConvo();
-                //Disable Interaction message 
-                InteractMessage.SetActive(false);
                 StopAllCoroutines();
                 yield break;
             }

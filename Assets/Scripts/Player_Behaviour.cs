@@ -85,10 +85,7 @@ public class Player_Behaviour : MonoBehaviour
         {
             if (currentWorriedNPC != null)
             {
-                SetMoveCamState(false);
-                SetCursorState(true);
                 StartConvo();
-                InteractMessageState.SetActive(false);
                 currentWorriedNPC.LookAtPlayer();
             }
         }
@@ -96,6 +93,17 @@ public class Player_Behaviour : MonoBehaviour
     public void StartConvo()
     {
         ConvoPanel.SetActive(true);
+        SetMoveCamState(false);
+        SetCursorState(true);
+        InteractMessageState.SetActive(false);
+        
+    }
+    public void EndConvo()
+    {
+        ConvoPanel.SetActive(false);
+        SetMoveCamState(true);
+        SetCursorState(false);
+        InteractMessageState.SetActive(true);
     }
     /// <summary>
     /// Lock player camera and position
