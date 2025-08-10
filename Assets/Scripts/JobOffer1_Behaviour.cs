@@ -43,6 +43,8 @@ public class JobOffer1_Behaviour : MonoBehaviour
     Toggle Pressure;
     [SerializeField]
     Toggle SusLink;
+    //Determine whether to add points
+    private bool correctChoice = false;
     void Start()
     {
         ResultsScreen.SetActive(false);
@@ -128,7 +130,7 @@ public class JobOffer1_Behaviour : MonoBehaviour
         }
         PointResult.text = JO1current.ToString();
         MaxPoints.text = Maximum.ToString();
-        if (JO1current > JO1Points)
+        if (JO1current > JO1Points && correctChoice)
         {
             BetterScore = JO1current - JO1Points;
             JO1Points = JO1current;
@@ -139,12 +141,14 @@ public class JobOffer1_Behaviour : MonoBehaviour
     }
     public void WrongVerdict()
     {
+        correctChoice = false;
         Verdict.text = "FAIL";
         Results();
         ResultsScreen.SetActive(true);
     }
     public void CorrectVerdict()
     {
+        correctChoice = true;
         Verdict.text = "SUCCESS";
         Results();
         ResultsScreen.SetActive(true);

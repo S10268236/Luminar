@@ -47,6 +47,8 @@ public class JobOffer2_Behaviour : MonoBehaviour
     Toggle CompanyIncons;
     [SerializeField]
     Toggle UpfrontFees;
+    //Determine whether to add points
+    private bool correctChoice = false;
     void Start()
     {
         ResultsScreen.SetActive(false);
@@ -146,7 +148,7 @@ public class JobOffer2_Behaviour : MonoBehaviour
 
         PointResult.text = JO2current.ToString();
         MaxPoints.text = Maximum.ToString();
-        if (JO2current > JO2Points)
+        if (JO2current > JO2Points && correctChoice)
         {
             BetterScore = JO2current - JO2Points;
             JO2Points = JO2current;
@@ -157,12 +159,14 @@ public class JobOffer2_Behaviour : MonoBehaviour
     }
     public void WrongVerdict()
     {
+        correctChoice = false;
         Verdict.text = "FAIL";
         Results();
         ResultsScreen.SetActive(true);
     }
     public void CorrectVerdict()
     {
+        correctChoice = true;
         Verdict.text = "SUCCESS";
         Results();
         ResultsScreen.SetActive(true);
