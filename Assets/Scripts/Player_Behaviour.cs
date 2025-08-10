@@ -27,6 +27,8 @@ public class Player_Behaviour : MonoBehaviour
     [SerializeField]
     public GameObject InteractMessageState;
     WorriedNPC_Behaviour currentWorriedNPC = null;
+    //Guard NPC interaction
+    GuardNPC_Behaviour currentGuard = null;
     Terminal_Behaviour currentTerminal = null;
     [SerializeField]
     public GameObject ConvoPanel;
@@ -58,11 +60,11 @@ public class Player_Behaviour : MonoBehaviour
                 canInteract = true;
                 currentWorriedNPC = hitInfo.collider.gameObject.GetComponent<WorriedNPC_Behaviour>();
             }
-            else if (hitInfo.collider.gameObject.CompareTag("Terminal"))
+            else if (hitInfo.collider.gameObject.CompareTag("GuardNPC"))
             {
-                InteractMessage.text = "[E] Access";
+                InteractMessage.text = "[E] Interact";
                 canInteract = true;
-                currentTerminal = hitInfo.collider.gameObject.GetComponent<Terminal_Behaviour>();
+                currentGuard = hitInfo.collider.gameObject.GetComponent<GuardNPC_Behaviour>();
             }
             else if (hitInfo.collider.gameObject.CompareTag("Untagged"))
             {
@@ -77,6 +79,8 @@ public class Player_Behaviour : MonoBehaviour
     private void ResetRaycast()
     {
         canInteract = false;
+        currentWorriedNPC = null;
+        currentGuard = null;
         InteractMessage.text = null;
     }
     public void OnInteract()
@@ -87,6 +91,11 @@ public class Player_Behaviour : MonoBehaviour
             {
                 StartConvo();
                 currentWorriedNPC.LookAtPlayer();
+            }
+            else if (currentGuard != null)
+            {
+                ConversationStart();
+                currentGuard.LookAtPlayer();
             }
         }
     }
@@ -101,6 +110,18 @@ public class Player_Behaviour : MonoBehaviour
     public void EndConvo()
     {
         ConvoPanel.SetActive(false);
+        SetMoveCamState(true);
+        SetCursorState(false);
+        InteractMessageState.SetActive(true);
+    }
+    public void ConversationStart()
+    {
+        SetMoveCamState(false);
+        SetCursorState(true);
+        InteractMessageState.SetActive(false);
+    }
+    public void ConversationEnd()
+    {
         SetMoveCamState(true);
         SetCursorState(false);
         InteractMessageState.SetActive(true);

@@ -32,7 +32,7 @@ public class HoverManager : MonoBehaviour
         //Show the tooltip
         tipWindow.gameObject.SetActive(true);
         //Set Tool tip to hover on the right side of the mouse position and not cover the mouse
-        tipWindow.transform.position = new Vector2(mousePos.x + tipWindow.sizeDelta.x * 2, mousePos.y);
+        tipWindow.transform.position = new Vector2(mousePos.x + 300, mousePos.y);
     }
     private void HideTip()
     {

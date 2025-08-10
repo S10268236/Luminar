@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ChillingNPC_Behaviour : MonoBehaviour
 {
+    //Float for random angle
+    private float RandomAngle;
     public float rotateDuration = 0.5f;
     private bool isRotating = false;
     void Start()
@@ -11,8 +13,9 @@ public class ChillingNPC_Behaviour : MonoBehaviour
     }
     IEnumerator Idle()
     {
-        yield return new WaitForSeconds(3);
-        StartCoroutine(Turn(90f));
+        yield return new WaitForSeconds(2);
+        RandomAngle = Random.Range(-91f, 91f);
+        StartCoroutine(Turn(RandomAngle));
     }
     IEnumerator Turn(float angle)
     {
