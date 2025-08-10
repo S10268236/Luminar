@@ -27,9 +27,9 @@ public class PauseMenu_Behaviour : MonoBehaviour
             PlayerObject.SetCursorState(false);
         }
     }
-    public void ReturntoMainMenu()
+    public void TutorialRecap()
     {
-        SceneManager.LoadSceneAsync(0);
+        
     }
     public void QuitGame()
     {
