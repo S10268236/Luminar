@@ -46,6 +46,10 @@ public class LuggageBag_Behaviour : MonoBehaviour
     Toggle UpfrontFees;
     //Determine whether to add points
     private bool correctChoice = false;
+    //Determine whether to end quest
+    public bool questSolved = false;
+    //Track success or fail
+    public bool succeded = true;
     void Start()
     {
         ResultsScreen.SetActive(false);
@@ -146,6 +150,8 @@ public class LuggageBag_Behaviour : MonoBehaviour
         Verdict.text = "FAIL";
         Results();
         ResultsScreen.SetActive(true);
+        questSolved = true;
+        succeded = false;
     }
     public void CorrectVerdict()
     {
@@ -153,5 +159,6 @@ public class LuggageBag_Behaviour : MonoBehaviour
         Verdict.text = "SUCCESS";
         Results();
         ResultsScreen.SetActive(true);
+        questSolved = true;
     }
 }

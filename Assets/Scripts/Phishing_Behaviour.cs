@@ -1,17 +1,15 @@
-using System.Collections;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
-public class JobOffer2_Behaviour : MonoBehaviour
+public class Phishing_Behaviour : MonoBehaviour
 {
     //Check whether tools are being used
     public bool InvestigationOn = false;
     //Show Tool used
     public TextMeshProUGUI ToolName;
     public GameManager GamePoints;
-    public int PointWeight;
+    public int PointWeight = 1;
     //Track Highest Point recieved storage
     public int JO2Points = 0;
     //Store current score
@@ -79,28 +77,14 @@ public class JobOffer2_Behaviour : MonoBehaviour
     {
         if (InvestigationOn)
         {
-            ToolResult.text = "This person is not in your contacts";
-        }
-    }
-    public void CompanyNameInvestigate()
-    {
-        if (InvestigationOn)
-        {
-            ToolResult.text = "This company exists";
+            ToolResult.text = "ocbcbank.sg";
         }
     }
     public void IDInvestigate()
     {
         if (InvestigationOn)
         {
-            ToolResult.text = "CompanyID is registered under Randstrandus Pte.Ltd";
-        }
-    }
-    public void SalaryInvestigate()
-    {
-        if (InvestigationOn)
-        {
-            ToolResult.text = "Market records show this income to be about 300% above the average income";
+            ToolResult.text = "Maybe hover over it?";
         }
     }
     private void TrackHighScore()
@@ -119,22 +103,22 @@ public class JobOffer2_Behaviour : MonoBehaviour
             TrackHighScore();
             //Debug.Log("Source" + JO2current);
         }
-        if (!InfoRequest.isOn)
+        if (InfoRequest.isOn)
         {
             TrackHighScore();
             //Debug.Log("Source" + JO2current);
         }
-        if (TGTBT.isOn)
+        if (!TGTBT.isOn)
         {
             TrackHighScore();
             //Debug.Log("Source" + JO2current);
         }
         if (Pressure.isOn)
-        {
-            TrackHighScore();
-            //Debug.Log("Source" + JO2current);
-        }
-        if (!SusLink.isOn)
+            {
+                TrackHighScore();
+                //Debug.Log("Source" + JO2current);
+            }
+        if (SusLink.isOn)
         {
             TrackHighScore();
             //Debug.Log("Source" + JO2current);
@@ -149,7 +133,7 @@ public class JobOffer2_Behaviour : MonoBehaviour
             TrackHighScore();
             //Debug.Log("Source" + JO2current);
         }
-
+        Debug.Log(JO2Points);
         PointResult.text = JO2current.ToString();
         MaxPoints.text = Maximum.ToString();
         if (JO2current > JO2Points && correctChoice)
@@ -159,7 +143,7 @@ public class JobOffer2_Behaviour : MonoBehaviour
             GamePoints.AddPoints(BetterScore);
         }
         JO2current = 0;
-        Debug.Log(JO2Points);
+        
     }
     public void WrongVerdict()
     {

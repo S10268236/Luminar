@@ -183,12 +183,17 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     {
         if (FinishedConvo)
         {
-            if (mAnimation != null)
-            {
-                mAnimation.SetBool("Walk", true);
-            }
             NavPoint.SetDestination(patrolPoints[0].position);
-            yield return null;
+            while (Vector3.Distance(transform.position, patrolPoints[0].position) >= 0.8f)
+            {
+                if (mAnimation != null)
+                {
+                    mAnimation.SetBool("Walk", true);
+                }
+                yield return null;
+            }
+            mAnimation.SetBool("Walk", false);
+            yield return StartCoroutine(Idle());
         }
         else
         {

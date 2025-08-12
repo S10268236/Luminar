@@ -126,7 +126,7 @@ public class Player_Behaviour : MonoBehaviour
             else if (currentRun != null)
             {
                 ConversationStart();
-                //currentRun.
+                currentRun.ScamTest();
             }
         }
     }

@@ -45,6 +45,10 @@ public class JobOffer1_Behaviour : MonoBehaviour
     Toggle SusLink;
     //Determine whether to add points
     private bool correctChoice = false;
+    //Determine whether to end quest
+    public bool questSolved = false;
+    //Track success or fail
+    public bool succeded = true;
     void Start()
     {
         ResultsScreen.SetActive(false);
@@ -145,6 +149,8 @@ public class JobOffer1_Behaviour : MonoBehaviour
         Verdict.text = "FAIL";
         Results();
         ResultsScreen.SetActive(true);
+        questSolved = true;
+        succeded = false;
     }
     public void CorrectVerdict()
     {
@@ -152,5 +158,6 @@ public class JobOffer1_Behaviour : MonoBehaviour
         Verdict.text = "SUCCESS";
         Results();
         ResultsScreen.SetActive(true);
+        questSolved = true;
     }
 }
