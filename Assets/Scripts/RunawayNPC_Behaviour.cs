@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using TMPro;
 
 public class RunawayNPC_Behaviour : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class RunawayNPC_Behaviour : MonoBehaviour
     Transform PlayerPosition;
     //Control Animations
     private Animator mAnimation;
+    //Activate/Deactivate message window
+    public GameObject RunConvoPanel;
+    //Change Text
+    public TextMeshProUGUI RunConvo;
     void Awake()
     {
         RunNav = GetComponent<NavMeshAgent>();
@@ -36,7 +41,7 @@ public class RunawayNPC_Behaviour : MonoBehaviour
         yield return new WaitForSeconds(2);
         RandomAngle = Random.Range(45f, 91f);
         RandomDirection = Random.Range(-1, 2);
-        StartCoroutine(Turn(RandomAngle*RandomDirection));
+        StartCoroutine(Turn(RandomAngle * RandomDirection));
     }
     IEnumerator Turn(float angle)
     {
@@ -63,7 +68,7 @@ public class RunawayNPC_Behaviour : MonoBehaviour
         }
         if (mAnimation != null)
         {
-            mAnimation.SetBool("Run",false);
+            mAnimation.SetBool("Run", false);
         }
         StartCoroutine(Idle());
         yield break;
@@ -91,5 +96,12 @@ public class RunawayNPC_Behaviour : MonoBehaviour
     {
         transform.LookAt(PlayerPosition.position);
         yield return new WaitForSeconds(1f);
+    }
+    public void ScamTest()
+    {
+        StopAllCoroutines();
+        transform.LookAt(PlayerPosition.position);
+        RunConvoPanel.SetActive(true);
+        RunConvo.text = "H-He-Heyy, I've g-g-got a wa-way to earn aloooot of ca-chips, you i-interested?";
     }
 }

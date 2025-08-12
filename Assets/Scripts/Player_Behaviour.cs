@@ -29,7 +29,10 @@ public class Player_Behaviour : MonoBehaviour
     WorriedNPC_Behaviour currentWorriedNPC = null;
     //Guard NPC interaction
     GuardNPC_Behaviour currentGuard = null;
-    Terminal_Behaviour currentTerminal = null;
+    //ChillNPC interaction
+    ChillingNPC_Behaviour currentChill = null;
+    //ChillNPC interaction
+    RunawayNPC_Behaviour currentRun = null;
     [SerializeField]
     public GameObject ConvoPanel;
     //Target Player Controller script to lock movement and camera rotation
@@ -70,6 +73,18 @@ public class Player_Behaviour : MonoBehaviour
                 canInteract = true;
                 currentGuard = hitInfo.collider.gameObject.GetComponent<GuardNPC_Behaviour>();
             }
+            else if (hitInfo.collider.gameObject.CompareTag("ChillNPC"))
+            {
+                InteractMessage.text = "[E] Interact";
+                canInteract = true;
+                currentChill = hitInfo.collider.gameObject.GetComponent<ChillingNPC_Behaviour>();
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("RunawayNPC"))
+            {
+                InteractMessage.text = "[E] Interact";
+                canInteract = true;
+                currentRun = hitInfo.collider.gameObject.GetComponent<RunawayNPC_Behaviour>();
+            }
             else if (hitInfo.collider.gameObject.CompareTag("Untagged"))
             {
                 ResetRaycast();
@@ -85,6 +100,8 @@ public class Player_Behaviour : MonoBehaviour
         canInteract = false;
         currentWorriedNPC = null;
         currentGuard = null;
+        currentChill = null;
+        currentRun = null;
         InteractMessage.text = null;
     }
     public void OnInteract()
@@ -100,6 +117,16 @@ public class Player_Behaviour : MonoBehaviour
             {
                 ConversationStart();
                 currentGuard.LookAtPlayer();
+            }
+            else if (currentChill != null)
+            {
+                ConversationStart();
+                currentChill.WaitTillDeathTalk();
+            }
+            else if (currentRun != null)
+            {
+                ConversationStart();
+                //currentRun.
             }
         }
     }

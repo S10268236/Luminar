@@ -22,17 +22,8 @@ public class GuardNPC_Behaviour : MonoBehaviour
     //Access guard conversation
     [SerializeField]
     GameObject GuardConvo1;
-    [SerializeField]
-    GameObject GuardConvo2;
-    [SerializeField]
-    GameObject GuardConvo3;
-    [SerializeField]
-    GameObject GuardConvo4;
     //Change convo text
     public TextMeshProUGUI Convo1;
-    public TextMeshProUGUI Convo2;
-    public TextMeshProUGUI Convo3;
-    public TextMeshProUGUI Convo4;
     //Control Animations
     private Animator mAnimation;
     //Debugging SwitchState-access currnt state
@@ -92,7 +83,7 @@ public class GuardNPC_Behaviour : MonoBehaviour
     }
     IEnumerator Patrolling()
     {
-        //Debug.Log($"Patrol points: {navGuardPoints?.Length}");
+        Debug.Log($"Patrol points: {navGuardPoints?.Length}");
         //Debug.Log("Starting Patrol");
         while (currentState == "Patrolling")
         {
@@ -117,6 +108,7 @@ public class GuardNPC_Behaviour : MonoBehaviour
         {
             mAnimation.SetBool("Patrol",false);
         }
+        StopAllCoroutines();
         transform.LookAt(PlayerPosition.position);
         GuardNav.SetDestination(transform.position);
         GuardConvoNo = Random.Range(0, 4);
@@ -128,23 +120,23 @@ public class GuardNPC_Behaviour : MonoBehaviour
         }
         else if (GuardConvoNo == 1)
         {
-            Convo2.text = "I used to run track, but then I took a scam to the knee";
-            GuardConvo2.SetActive(true);
+            Convo1.text = "I used to run track, but then I took a scam to the knee";
+            GuardConvo1.SetActive(true);
         }
         else if (GuardConvoNo == 2)
         {
-            Convo3.text = "Did you know that fish are built different in this game? Last week, one of them took my wallet";
-            GuardConvo3.SetActive(true);
+            Convo1.text = "Did you know that fish are built different in this game? Last week, one of them took my wallet";
+            GuardConvo1.SetActive(true);
         }
         else if (GuardConvoNo == 3)
         {
-            Convo4.text = "I wish I was Skyrim NPC. I might have had better lines. ";
-            GuardConvo4.SetActive(true);
+            Convo1.text = "I wish I was Skyrim NPC. I might have had better lines. ";
+            GuardConvo1.SetActive(true);
         }
     }
     public void ResumePatrol()
     {
         //Debug.Log($"ResumePatrol called; navGuardPoints length = {navGuardPoints?.Length}");
-        StartCoroutine(SwitchState("Patrolling"));
+        StartCoroutine(Patrolling());
     }
 }
