@@ -89,7 +89,7 @@ public class JobOffer2_Behaviour : MonoBehaviour
     {
         if (InvestigationOn)
         {
-            ToolResult.text = "CompanyID is registered under Santrandus Pte.Ltd";
+            ToolResult.text = "CompanyID is registered under Randstrandus Pte.Ltd";
         }
     }
     public void SalaryInvestigate()

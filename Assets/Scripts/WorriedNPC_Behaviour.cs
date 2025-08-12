@@ -29,13 +29,16 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     GameObject ConvoPanel;
     //Store this approaching NPC's position
     public Vector3 NPCPosition;
-    
+    //Control Animations
+    private Animator mAnimation;
 
 
     void Awake()
     {
         NavPoint = GetComponent<NavMeshAgent>();
-        //Assign player behaviour script for access
+        //Set animator
+        mAnimation = GetComponent<Animator>();
+
     }
     void Start()
     {
@@ -43,6 +46,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     }
     public void LookAtPlayer()
     {
+        if (mAnimation != null)
+        {
+            mAnimation.SetBool("Walk",false);
+        }
         StopAllCoroutines();
         transform.LookAt(PlayerPosition.position);
         NavPoint.SetDestination(transform.position);
@@ -56,6 +63,11 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         //Debug.Log("Going Idle");
         while (currentState == "Idle")
         {
+            if (mAnimation != null)
+            {
+                Debug.Log("Idle");
+                mAnimation.SetBool("Walk", false);
+            }
             if (Target != null)
             {
                 StartCoroutine(SwitchState("ApproachPlayer"));
@@ -73,15 +85,12 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             yield return null;
             NavPoint.SetDestination(Target.position);
             //Stop chasing when at this distance
+            if (mAnimation != null)
+            {
+                mAnimation.SetBool("Walk", true);
+            }
             if (Vector3.Distance(transform.position, Target.position) <= 3f && !hasInteracted)
             {
-                //Set Variable's position to this NPC's position
-                // NPCPosition = transform.position;
-                // NPCPosition.y = transform.position.y;
-                // //NPCPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-
-                // //Make Player look at NPC
-                // PlayerObject.TurnToNPC(NPCPosition);
                 hasInteracted = true;
                 QuestSolved = true;
                 NavPoint.SetDestination(transform.position);
@@ -115,9 +124,14 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         //Debug.Log("Starting Patrol");
         while (currentState == "Patrolling")
         {
+            if (mAnimation != null)
+            {
+                Debug.Log("Walkk");
+                mAnimation.SetBool("Walk",true);
+            }
             Transform CurrentPatrolPoint = patrolPoints[currentPatrolIndex];
             NavPoint.SetDestination(CurrentPatrolPoint.position);
-            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 0.8f)
+            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 1f)
             {
                 if (Target != null)
                 {
@@ -146,7 +160,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         {
             Target = null;
             FinishedConvo = true;
-            Debug.Log("FinishedConvo is true");
+            //Debug.Log("FinishedConvo is true");
             if (!QuestSolved)
             {
                 StartCoroutine(SwitchState("Idle"));

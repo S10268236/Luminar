@@ -45,8 +45,8 @@ public class GuardNPC_Behaviour : MonoBehaviour
     void Start()
     {
         mAnimation = GetComponent<Animator>();
-        Debug.Log($"GuardPoint1: {(GuardPoint1 == null ? "null" : GuardPoint1.name)}");
-        Debug.Log($"GuardPoint2: {(GuardPoint2 == null ? "null" : GuardPoint2.name)}");
+        //Debug.Log($"GuardPoint1: {(GuardPoint1 == null ? "null" : GuardPoint1.name)}");
+        //Debug.Log($"GuardPoint2: {(GuardPoint2 == null ? "null" : GuardPoint2.name)}");
         navGuardPoints = new Transform[] { GuardPoint1, GuardPoint2 };
         StartCoroutine(currentState);
     }
@@ -92,8 +92,8 @@ public class GuardNPC_Behaviour : MonoBehaviour
     }
     IEnumerator Patrolling()
     {
-        Debug.Log($"Patrol points: {navGuardPoints?.Length}");
-        Debug.Log("Starting Patrol");
+        //Debug.Log($"Patrol points: {navGuardPoints?.Length}");
+        //Debug.Log("Starting Patrol");
         while (currentState == "Patrolling")
         {
             if (mAnimation != null)
@@ -144,7 +144,7 @@ public class GuardNPC_Behaviour : MonoBehaviour
     }
     public void ResumePatrol()
     {
-        Debug.Log($"ResumePatrol called; navGuardPoints length = {navGuardPoints?.Length}");
+        //Debug.Log($"ResumePatrol called; navGuardPoints length = {navGuardPoints?.Length}");
         StartCoroutine(SwitchState("Patrolling"));
     }
 }

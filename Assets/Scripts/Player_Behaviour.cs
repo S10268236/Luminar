@@ -38,6 +38,10 @@ public class Player_Behaviour : MonoBehaviour
     public bool isPaused = false;
     //Access PauseMenu behaviour
     public PauseMenu_Behaviour EscPressed;
+    void Start()
+    {
+        SetCursorState(false);
+    }
     void Awake()
     {
         ControlFirstPerson = GetComponent<FirstPersonController>();
@@ -170,8 +174,4 @@ public class Player_Behaviour : MonoBehaviour
             InteractMessageState.SetActive(true);
         }
     }
-    // public void TurnToNPC(Vector3 NPCtransform)
-    // {
-    //     transform.LookAt(NPCtransform);
-    // }
 }
