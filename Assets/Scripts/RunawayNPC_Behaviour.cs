@@ -4,8 +4,10 @@ using UnityEngine.AI;
 
 public class RunawayNPC_Behaviour : MonoBehaviour
 {
-    //Float for random angle
+    //Float for random angle magnitude
     private float RandomAngle;
+    //Float for angle direction
+    private int RandomDirection;
     public float rotateDuration = 0.2f;
     private bool isRotating = false;
     //Set position to run to
@@ -18,9 +20,12 @@ public class RunawayNPC_Behaviour : MonoBehaviour
     //Store Player position to look at
     [SerializeField]
     Transform PlayerPosition;
+    //Control Animations
+    private Animator mAnimation;
     void Awake()
     {
         RunNav = GetComponent<NavMeshAgent>();
+        mAnimation = GetComponent<Animator>();
     }
     void Start()
     {
@@ -29,8 +34,9 @@ public class RunawayNPC_Behaviour : MonoBehaviour
     IEnumerator Idle()
     {
         yield return new WaitForSeconds(2);
-        RandomAngle = Random.Range(-91f, 91f);
-        StartCoroutine(Turn(RandomAngle));
+        RandomAngle = Random.Range(45f, 91f);
+        RandomDirection = Random.Range(-1, 2);
+        StartCoroutine(Turn(RandomAngle*RandomDirection));
     }
     IEnumerator Turn(float angle)
     {
@@ -48,6 +54,20 @@ public class RunawayNPC_Behaviour : MonoBehaviour
         isRotating = false;
         yield return StartCoroutine(Idle());
     }
+    IEnumerator Runaway()
+    {
+        RunNav.SetDestination(HidingSpot.position);
+        while (Vector3.Distance(transform.position, HidingSpot.position) > 0.8f)
+        {
+            yield return null;
+        }
+        if (mAnimation != null)
+        {
+            mAnimation.SetBool("Run",false);
+        }
+        StartCoroutine(Idle());
+        yield break;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -55,12 +75,15 @@ public class RunawayNPC_Behaviour : MonoBehaviour
         {
             if (!hiding)
             {
-                StopAllCoroutines();
+                StopCoroutine(Idle());
                 StartCoroutine(StopNStare());
                 hiding = true;
-                Debug.Log("RUN");
-                RunNav.SetDestination(HidingSpot.position);
-                StartCoroutine(Idle());
+                if (mAnimation != null)
+                {
+                    Debug.Log("Run");
+                    mAnimation.SetBool("Run", true);
+                }
+                StartCoroutine(Runaway());
             }
         }
     }

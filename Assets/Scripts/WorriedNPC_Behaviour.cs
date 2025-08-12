@@ -65,7 +65,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         {
             if (mAnimation != null)
             {
-                Debug.Log("Idle");
+                //Debug.Log("Idle");
                 mAnimation.SetBool("Walk", false);
             }
             if (Target != null)
@@ -130,7 +130,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         {
             if (mAnimation != null)
             {
-                Debug.Log("Walkk");
+                //Debug.Log("Walkk");
                 mAnimation.SetBool("Walk",true);
             }
             Transform CurrentPatrolPoint = patrolPoints[currentPatrolIndex];
