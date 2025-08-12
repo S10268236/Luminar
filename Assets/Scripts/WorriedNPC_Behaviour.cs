@@ -91,6 +91,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             }
             if (Vector3.Distance(transform.position, Target.position) <= 3f && !hasInteracted)
             {
+                if (mAnimation != null)
+            {
+                mAnimation.SetBool("Walk", false);
+            }
                 hasInteracted = true;
                 QuestSolved = true;
                 NavPoint.SetDestination(transform.position);
@@ -175,6 +179,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     {
         if (FinishedConvo)
         {
+            if (mAnimation != null)
+            {
+                mAnimation.SetBool("Walk", true);
+            }
             NavPoint.SetDestination(patrolPoints[0].position);
             yield return null;
         }
