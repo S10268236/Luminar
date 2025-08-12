@@ -123,22 +123,22 @@ public class GuardNPC_Behaviour : MonoBehaviour
         //Display Conversation window
         if (GuardConvoNo == 0)
         {
-            Convo1.text = "Eat my shit";
+            Convo1.text = "I smell something fishy";
             GuardConvo1.SetActive(true);
         }
         else if (GuardConvoNo == 1)
         {
-            Convo2.text = "I used to run track, but then I took a Jeffrey to the knee";
+            Convo2.text = "I used to run track, but then I took a scam to the knee";
             GuardConvo2.SetActive(true);
         }
         else if (GuardConvoNo == 2)
         {
-            Convo3.text = "Did you know that bells sound different in this game? They go YiTing~~";
+            Convo3.text = "Did you know that fish are built different in this game? Last week, one of them took my wallet";
             GuardConvo3.SetActive(true);
         }
         else if (GuardConvoNo == 3)
         {
-            Convo4.text = "BOO! Hmmm...Baihui would have been scared there..";
+            Convo4.text = "I wish I was Skyrim NPC. I might have had better lines. ";
             GuardConvo4.SetActive(true);
         }
     }

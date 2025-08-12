@@ -7,9 +7,32 @@ public class ChillingNPC_Behaviour : MonoBehaviour
     private float RandomAngle;
     public float rotateDuration = 0.5f;
     private bool isRotating = false;
+    //Track time 
+    public float TimetillD = 0f;
+    //Activate Time tracker
+    private bool StartTimer = false;
+    //Track death
+    private bool isDead = false;
+    //Activate animation
+    //Access animator
+    private Animator mAnimation;
     void Start()
     {
         StartCoroutine(Idle());
+        mAnimation = GetComponent<Animator>();
+    }
+    void Update()
+    {
+        if (StartTimer)
+        {
+            TimetillD += Time.deltaTime;
+            if (TimetillD >= 3f)
+            {
+                Debug.Log("Ded");
+                mAnimation.SetTrigger("Death");
+                StopAllCoroutines(); 
+            }
+        }
     }
     IEnumerator Idle()
     {
@@ -32,5 +55,20 @@ public class ChillingNPC_Behaviour : MonoBehaviour
         transform.rotation = endRotate;
         isRotating = false;
         yield return StartCoroutine(Idle());
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Timer started");
+            StartTimer = true;
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            TimetillD = 0;
+        }
     }
 }

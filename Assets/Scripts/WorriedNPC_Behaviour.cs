@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,6 +28,9 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     //Access Convo Panel
     [SerializeField]
     GameObject ConvoPanel;
+    //Change convo
+    public TextMeshProUGUI Conversation;
+    
     //Store this approaching NPC's position
     public Vector3 NPCPosition;
     //Control Animations
@@ -92,9 +96,9 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             if (Vector3.Distance(transform.position, Target.position) <= 3f && !hasInteracted)
             {
                 if (mAnimation != null)
-            {
-                mAnimation.SetBool("Walk", false);
-            }
+                {
+                    mAnimation.SetBool("Walk", false);
+                }
                 hasInteracted = true;
                 QuestSolved = true;
                 NavPoint.SetDestination(transform.position);
