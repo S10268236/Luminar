@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     //End Game Score Verdict
     public TextMeshProUGUI VerdictText;
     //Number to track success and failures
-    private int SucFail = 0;
+    public int SucFail = 0;
     void Awake()
     {
         instance = this;
@@ -37,26 +37,14 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (Job1Complete.questSolved && Job2Complete.questSolved && ParcelComplete.questSolved && LuggageComplete.questSolved && PhishingComplete.questSolved)
+        if (Job1Complete != null)
         {
-            TallySucFail();
-            GameCompleteWindow.SetActive(true);
-            SuccessesScore.text = SucFail.ToString();
-            FailsScore.text = (5 - SucFail).ToString();
-            ChipNum.text = ChipScore.ToString();
-            if (SucFail <= 2)
-            {
-                VerdictText.text = "Congratulations! You get to play this game again to train your scam awareness!";
-            }
-            else if (SucFail <= 4)
-            {
-                VerdictText.text = "Congratulations! You are Scam Aware! Play again for a perfect score and a chance to win an achievement card!";
-            }
-            else if (SucFail >= 5)
-            {
-                VerdictText.text = "Congratulations! You are Scam Resistant! Show this screen to a facilitator for a lucky draw!";
-            }
 
+            if (Job1Complete.questSolved && Job2Complete.questSolved && ParcelComplete.questSolved && LuggageComplete.questSolved && PhishingComplete.questSolved)
+            {
+                Job1Complete.questSolved = false;
+                Results();
+            }
         }
     }
     void Start()
@@ -94,6 +82,26 @@ public class GameManager : MonoBehaviour
         if (PhishingComplete.succeded)
         {
             SucFail++;
+        }
+    }
+    public void Results()
+    {
+        TallySucFail();
+        GameCompleteWindow.SetActive(true);
+        SuccessesScore.text = SucFail.ToString();
+        FailsScore.text = (5 - SucFail).ToString();
+        ChipNum.text = chips.ToString();
+        if (SucFail <= 2)
+        {
+            VerdictText.text = "Congratulations! You get to play this game again to train your scam awareness!";
+        }
+        else if (SucFail <= 4)
+        {
+            VerdictText.text = "Congratulations! You are Scam Aware! Play again for a perfect score and a chance to win an achievement card!";
+        }
+        else if (SucFail >= 5)
+        {
+            VerdictText.text = "Congratulations! You are Scam Resistant! Show this screen to a facilitator for a lucky draw!";
         }
     }
 }

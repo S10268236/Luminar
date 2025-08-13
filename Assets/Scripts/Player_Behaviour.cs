@@ -136,7 +136,7 @@ public class Player_Behaviour : MonoBehaviour
         SetMoveCamState(false);
         SetCursorState(true);
         InteractMessageState.SetActive(false);
-        
+
     }
     public void EndConvo()
     {
@@ -201,4 +201,8 @@ public class Player_Behaviour : MonoBehaviour
             InteractMessageState.SetActive(true);
         }
     }
+    // public void OnWin()
+    // {
+        
+    // }
 }
