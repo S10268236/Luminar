@@ -5,15 +5,17 @@ using UnityEngine.UI;
 
 public class ChillingNPC_Behaviour : MonoBehaviour
 {
-    //Float for random angle
+    //Float for random angle npc will turn
     private float RandomAngle;
+    //Float for time it takes to rotate
     public float rotateDuration = 0.5f;
+    //Bool to check whether currently rotating
     private bool isRotating = false;
-    //Track time 
+    //Track time for animation trigger
     public float TimetillD = 0f;
     //Activate Time tracker
     private bool StartTimer = false;
-    //Track death
+    //Track whether dead
     private bool isDead = false;
     //Access animator
     private Animator mAnimation;
@@ -25,11 +27,17 @@ public class ChillingNPC_Behaviour : MonoBehaviour
     public GameObject DeactivatePos;
     //Change Text
     public TextMeshProUGUI ChillConvo;
+    /// <summary>
+    /// Begin Corouting and assign the variable mAnimation to access the animator
+    /// </summary>
     void Start()
     {
         StartCoroutine(Idle());
         mAnimation = GetComponent<Animator>();
     }
+    /// <summary>
+    /// Track how long player is within trigger zone, trigger death animation when over time
+    /// </summary>
     void Update()
     {
         if (StartTimer)
@@ -44,12 +52,21 @@ public class ChillingNPC_Behaviour : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Idle coroutine, triggers random turn at the end of every turn
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Idle()
     {
         yield return new WaitForSeconds(2);
         RandomAngle = Random.Range(-91f, 91f);
         StartCoroutine(Turn(RandomAngle));
     }
+    /// <summary>
+    /// Coroutine for random turn, uses quaternion for smooth rotation, ensures is not isRotating, starts Idle at the end
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <returns></returns>
     IEnumerator Turn(float angle)
     {
         isRotating = true;
@@ -66,6 +83,10 @@ public class ChillingNPC_Behaviour : MonoBehaviour
         isRotating = false;
         yield return StartCoroutine(Idle());
     }
+    /// <summary>
+    /// Checks if collider hits player, then begins timer
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -74,6 +95,10 @@ public class ChillingNPC_Behaviour : MonoBehaviour
             StartTimer = true;
         }
     }
+    /// <summary>
+    /// Resets timer if player leaves
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -81,6 +106,9 @@ public class ChillingNPC_Behaviour : MonoBehaviour
             TimetillD = 0;
         }
     }
+    /// <summary>
+    /// Checks whether NPC animation death has played and changes dialogue if has or hasnt
+    /// </summary>
     public void WaitTillDeathTalk()
     {
         ChillConvoPanel.SetActive(true);

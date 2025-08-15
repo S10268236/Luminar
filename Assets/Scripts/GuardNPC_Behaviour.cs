@@ -5,14 +5,20 @@ using UnityEngine.AI;
 
 public class GuardNPC_Behaviour : MonoBehaviour
 {
+    //For Navmesh to work
     NavMeshAgent GuardNav;
+    //display current FSM state
     [SerializeField]
     string currentState = "Idle";
+    //Inputs for position of guard spots
     [SerializeField]
     Transform GuardPoint1;
+    //Inputs for position of guard spots
     [SerializeField]
     Transform GuardPoint2;
+    //Create array for guard points to populate
     public Transform[] navGuardPoints;
+    //Track which guard point is currently being used
     private int currentPatrolIndex = 0;
     //For looking at player during convo
     [SerializeField]
@@ -28,11 +34,16 @@ public class GuardNPC_Behaviour : MonoBehaviour
     private Animator mAnimation;
     //Debugging SwitchState-access currnt state
     private Coroutine stateCoroutine;
-
+    /// <summary>
+    /// Assign Navmeshagent
+    /// </summary>
     void Awake()
     {
         GuardNav = GetComponent<NavMeshAgent>();
     }
+    /// <summary>
+    /// Assign animation variable and guard point locations to array. Begin Coroutine
+    /// </summary>
     void Start()
     {
         mAnimation = GetComponent<Animator>();
@@ -41,6 +52,10 @@ public class GuardNPC_Behaviour : MonoBehaviour
         navGuardPoints = new Transform[] { GuardPoint1, GuardPoint2 };
         StartCoroutine(currentState);
     }
+    /// <summary>
+    /// Idle Coroutine, Stops walking animation,Starts idle animation for period, begins Patrol Coroutine on end
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator Idle()
     {
         //Debug.Log("Going Idle");
@@ -48,12 +63,17 @@ public class GuardNPC_Behaviour : MonoBehaviour
         {
             if (mAnimation != null)
             {
-                mAnimation.SetBool("Patrol",false);
+                mAnimation.SetBool("Patrol", false);
             }
             yield return new WaitForSeconds(3);
             StartCoroutine(SwitchState("Patrolling"));
         }
     }
+    /// <summary>
+    /// Coroutine for switching states, tracks current and next coroutine and stops it when switching to a new one
+    /// </summary>
+    /// <param name="newState"></param>
+    /// <returns></returns>
     IEnumerator SwitchState(string newState)
     {
         if (currentState == newState)
@@ -74,13 +94,16 @@ public class GuardNPC_Behaviour : MonoBehaviour
             case "Idle":
                 stateCoroutine = StartCoroutine(Idle());
                 break;
-            // Add other states if needed
             default:
                 Debug.LogWarning($"Unknown state: {currentState}");
                 break;
         }
         yield return null;
     }
+    /// <summary>
+    /// Patrol coroutine
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Patrolling()
     {
         Debug.Log($"Patrol points: {navGuardPoints?.Length}");
@@ -91,27 +114,30 @@ public class GuardNPC_Behaviour : MonoBehaviour
             {
                 mAnimation.SetBool("Patrol", true);
             }
-            Transform CurrentPatrolPoint = navGuardPoints[currentPatrolIndex];
-            GuardNav.SetDestination(CurrentPatrolPoint.position);
-            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 0.8f)
+            Transform CurrentPatrolPoint = navGuardPoints[currentPatrolIndex];//Set next guard point
+            GuardNav.SetDestination(CurrentPatrolPoint.position);//Make npc move to it
+            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 0.8f)//Check if have not reached, continue moving
             {
                 yield return null;
             }
             //Debug.Log("Next Point!");
-            currentPatrolIndex = (currentPatrolIndex + 1) % navGuardPoints.Length;
+            currentPatrolIndex = (currentPatrolIndex + 1) % navGuardPoints.Length;//Upon reaching, set next Guard point, code causes points to wrap around
             yield return StartCoroutine(SwitchState("Idle"));
         }
     }
+    /// <summary>
+    /// Make NPC look at player
+    /// </summary>
     public void LookAtPlayer()
     {
         if (mAnimation != null)
         {
-            mAnimation.SetBool("Patrol",false);
+            mAnimation.SetBool("Patrol", false);//Stop walking animation
         }
-        StopAllCoroutines();
-        transform.LookAt(PlayerPosition.position);
-        GuardNav.SetDestination(transform.position);
-        GuardConvoNo = Random.Range(0, 4);
+        StopAllCoroutines();//Stop npc from trying to patrol again
+        transform.LookAt(PlayerPosition.position); //Point npc at player
+        GuardNav.SetDestination(transform.position); //Stop npc from moving from position
+        GuardConvoNo = Random.Range(0, 4); //Randomise convo
         //Display Conversation window
         if (GuardConvoNo == 0)
         {
@@ -134,6 +160,9 @@ public class GuardNPC_Behaviour : MonoBehaviour
             GuardConvo1.SetActive(true);
         }
     }
+    /// <summary>
+    /// Restart patrol coroutine
+    /// </summary>
     public void ResumePatrol()
     {
         //Debug.Log($"ResumePatrol called; navGuardPoints length = {navGuardPoints?.Length}");

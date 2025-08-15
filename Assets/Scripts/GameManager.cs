@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public int chips;
     //Display score on screen with this object
     public TextMeshProUGUI ChipScore;
+    //Access GameManager
     public static GameManager instance;
     //Track every Quest's completion
     private JobOffer1_Behaviour Job1Complete;
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI VerdictText;
     //Number to track success and failures
     public int SucFail = 0;
+    /// <summary>
+    /// OnAwake, access all quest's scripts 
+    /// </summary>
     void Awake()
     {
         instance = this;
@@ -35,32 +39,45 @@ public class GameManager : MonoBehaviour
         LuggageComplete = GetComponent<LuggageBag_Behaviour>();
         PhishingComplete = GetComponent<Phishing_Behaviour>();
     }
+    /// <summary>
+    /// Check for quests completion
+    /// </summary>
     void Update()
     {
         if (Job1Complete != null)
         {
-
+            //Check whether all quests are complete
             if (Job1Complete.questSolved && Job2Complete.questSolved && ParcelComplete.questSolved && LuggageComplete.questSolved && PhishingComplete.questSolved)
             {
-                Job1Complete.questSolved = false;
+                Job1Complete.questSolved = false;//Stop this code from running again
                 Results();
             }
         }
     }
+    /// <summary>
+    /// Display chip score on UI
+    /// </summary>
     void Start()
     {
         if (ChipScore != null)
         {
-            chips = 0;
-            ChipScore.text = chips.ToString();
+            chips = 0;//Reset Chip score
+            ChipScore.text = chips.ToString();//Display on UI
         }
     }
+    /// <summary>
+    /// Function to add points
+    /// </summary>
+    /// <param name="points"></param>
     public void AddPoints(int points)
     {
         chips += points;
         //Debug.Log("Chip Score: " + chips);
         ChipScore.text = chips.ToString();
     }
+    /// <summary>
+    /// Tally up the number of successes and fails
+    /// </summary>
     public void TallySucFail()
     {
         if (Job1Complete.succeded)
@@ -84,13 +101,17 @@ public class GameManager : MonoBehaviour
             SucFail++;
         }
     }
+    /// <summary>
+    /// Display Results on End game screen
+    /// </summary>
     public void Results()
     {
         TallySucFail();
-        GameCompleteWindow.SetActive(true);
-        SuccessesScore.text = SucFail.ToString();
+        GameCompleteWindow.SetActive(true);//Activate end game window
+        SuccessesScore.text = SucFail.ToString(); 
         FailsScore.text = (5 - SucFail).ToString();
         ChipNum.text = chips.ToString();
+        //Determine which level player achieves
         if (SucFail <= 2)
         {
             VerdictText.text = "Congratulations! You get to play this game again to train your scam awareness!";
