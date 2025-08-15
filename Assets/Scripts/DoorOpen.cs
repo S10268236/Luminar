@@ -2,21 +2,18 @@ using UnityEngine;
 
 public class DoorOpen : MonoBehaviour
 {
-    public Animation doorLeft;
-    public Animation doorRight;
+    Animator DoorAnim;
 
-    public string leftOpenAnim;
-    public string rightOpenAnim;
+    void Start()
+    {
+        DoorAnim = transform.parent.GetComponent<Animator>();
 
-    public string leftCloseAnim;
-    public string rightCloseAnim;
-
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            doorLeft.Play(leftOpenAnim);
-            doorRight.Play(rightOpenAnim);
+            DoorAnim.SetBool("isOpening", true);
         }
     }
 
@@ -24,8 +21,7 @@ public class DoorOpen : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            doorLeft.Play(leftCloseAnim);
-            doorRight.Play(rightCloseAnim);
+            DoorAnim.SetBool("isOpening", false);
         }
     }
 }
