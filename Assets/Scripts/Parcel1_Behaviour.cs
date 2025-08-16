@@ -8,7 +8,9 @@ public class Parcel1_Behaviour : MonoBehaviour
     public bool InvestigationOn = false;
     //Show Tool used
     public TextMeshProUGUI ToolName;
+    //Access game points within Game Manager
     public GameManager GamePoints;
+    //Int to determine how much points with each correct answer
     public int PointWeight = 1;
     //Track Highest Point recieved storage
     public int JO2Points = 0;
@@ -26,9 +28,11 @@ public class Parcel1_Behaviour : MonoBehaviour
     GameObject ResultsScreen;
     //Determine Verdict
     public TextMeshProUGUI Verdict;
+    //Text input for result of Tool
 
     [SerializeField]
     TextMeshProUGUI ToolResult;
+    //Following 5 are Checkbox input for indicators
     [SerializeField]
     Toggle Source;
     [SerializeField]
@@ -45,28 +49,46 @@ public class Parcel1_Behaviour : MonoBehaviour
     public bool questSolved = false;
     //Track success or fail
     public bool succeded = true;
+    /// <summary>
+    /// Disable results screen at start, reset points
+    /// </summary>
     void Start()
     {
         ResultsScreen.SetActive(false);
         JO2Points = 0;
         JO2current = 0;
     }
+    /// <summary>
+    /// Show Tool name
+    /// </summary>
     public void InvestigateToolName()
     {
         ToolName.text = "Investigation Tool";
     }
+    /// <summary>
+    /// Clear Tool name
+    /// </summary>
     public void ClearToolName()
     {
         ToolName.text = default;
     }
+    /// <summary>
+    /// Switch tool bool to On
+    /// </summary>
     public void InvestigationToolOn()
     {
         InvestigationOn = true;
     }
+    /// <summary>
+    /// Switch tool bool to off
+    /// </summary>
     public void InvestigationToolOff()
     {
         InvestigationOn = false;
     }
+    /// <summary>
+    /// Text change for investigating the sender
+    /// </summary>
     public void SenderInvestigate()
     {
         if (InvestigationOn)
@@ -74,6 +96,9 @@ public class Parcel1_Behaviour : MonoBehaviour
             ToolResult.text = "Message is from SINGPOST";
         }
     }
+    /// <summary>
+    /// Text change for ID
+    /// </summary>
     public void IDInvestigate()
     {
         if (InvestigationOn)
@@ -81,6 +106,9 @@ public class Parcel1_Behaviour : MonoBehaviour
             ToolResult.text = "Maybe hover over it?";
         }
     }
+    /// <summary>
+    /// Text change for Salary
+    /// </summary>
     public void SalaryInvestigate()
     {
         if (InvestigationOn)
@@ -88,6 +116,9 @@ public class Parcel1_Behaviour : MonoBehaviour
             ToolResult.text = "Authentic SingPost Logo";
         }
     }
+    /// <summary>
+    /// Text change for spelling
+    /// </summary>
     public void GoodEye()
     {
         if (InvestigationOn)
@@ -95,10 +126,16 @@ public class Parcel1_Behaviour : MonoBehaviour
             ToolResult.text = "Somethingss wrongss heress";
         }
     }
+    /// <summary>
+    /// Add point weight to current points
+    /// </summary>
     private void TrackHighScore()
     {
         JO2current += PointWeight;
     }
+    /// <summary>
+    /// Tally results of judgement
+    /// </summary>
     public void Results()
     {
         if (!Source.isOn)
@@ -136,8 +173,11 @@ public class Parcel1_Behaviour : MonoBehaviour
             GamePoints.AddPoints(BetterScore);
         }
         JO2current = 0;
-        
+
     }
+    /// <summary>
+    /// Show wrong choice verdict, track offer fail
+    /// </summary>
     public void WrongVerdict()
     {
         correctChoice = false;
@@ -147,6 +187,9 @@ public class Parcel1_Behaviour : MonoBehaviour
         questSolved = true;
         succeded = false;
     }
+    /// <summary>
+    /// Show correct choice verdict, track success
+    /// </summary>
     public void CorrectVerdict()
     {
         correctChoice = true;

@@ -9,7 +9,9 @@ public class RunawayNPC_Behaviour : MonoBehaviour
     private float RandomAngle;
     //Float for angle direction
     private int RandomDirection;
+    //duration of rotation
     public float rotateDuration = 0.2f;
+    //Bool to check whether currently rotating
     private bool isRotating = false;
     //Set position to run to
     [SerializeField]
@@ -27,15 +29,25 @@ public class RunawayNPC_Behaviour : MonoBehaviour
     public GameObject RunConvoPanel;
     //Change Text
     public TextMeshProUGUI RunConvo;
+    /// <summary>
+    /// assign the variable mAnimation to access the animator amd Get NavMeshAgent
+    /// </summary>
     void Awake()
     {
         RunNav = GetComponent<NavMeshAgent>();
         mAnimation = GetComponent<Animator>();
     }
+    /// <summary>
+    /// Start Coroutine Idle
+    /// </summary>
     void Start()
     {
         StartCoroutine(Idle());
     }
+    /// <summary>
+    /// Idle coroutine, triggers random turn at the end of every turn
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Idle()
     {
         yield return new WaitForSeconds(2);
@@ -43,6 +55,11 @@ public class RunawayNPC_Behaviour : MonoBehaviour
         RandomDirection = Random.Range(-1, 2);
         StartCoroutine(Turn(RandomAngle * RandomDirection));
     }
+    /// <summary>
+    /// Coroutine for random turn, uses quaternion for smooth rotation, ensures is not isRotating, starts Idle at the end
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <returns></returns>
     IEnumerator Turn(float angle)
     {
         isRotating = true;
@@ -59,6 +76,10 @@ public class RunawayNPC_Behaviour : MonoBehaviour
         isRotating = false;
         yield return StartCoroutine(Idle());
     }
+    /// <summary>
+    /// Make NPC run to hiding spot
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Runaway()
     {
         RunNav.SetDestination(HidingSpot.position);
@@ -73,6 +94,10 @@ public class RunawayNPC_Behaviour : MonoBehaviour
         StartCoroutine(Idle());
         yield break;
     }
+    /// <summary>
+    /// Check if player approaches, then trigger Runaway
+    /// </summary>
+    /// <param name="other"></param>
 
     void OnTriggerEnter(Collider other)
     {
@@ -92,11 +117,18 @@ public class RunawayNPC_Behaviour : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Make NPC look at player before running
+    /// </summary>
+    /// <returns></returns>
     IEnumerator StopNStare()
     {
         transform.LookAt(PlayerPosition.position);
         yield return new WaitForSeconds(1f);
     }
+    /// <summary>
+    /// Interacting window
+    /// </summary>
     public void ScamTest()
     {
         StopAllCoroutines();

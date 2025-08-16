@@ -15,6 +15,7 @@ public class Player_Behaviour : MonoBehaviour
     //Allow setting of position for Raycast to start from
     [SerializeField]
     Transform rayStart;
+    //Track whether can interact
     bool canInteract = false;
     /// <summary>
     /// Interact Message stuff
@@ -33,6 +34,7 @@ public class Player_Behaviour : MonoBehaviour
     ChillingNPC_Behaviour currentChill = null;
     //ChillNPC interaction
     RunawayNPC_Behaviour currentRun = null;
+    //Input for gameobject display of conversation
     [SerializeField]
     public GameObject ConvoPanel;
     //Target Player Controller script to lock movement and camera rotation
@@ -41,16 +43,24 @@ public class Player_Behaviour : MonoBehaviour
     public bool isPaused = false;
     //Access PauseMenu behaviour
     public PauseMenu_Behaviour EscPressed;
+    /// <summary>
+    /// Take cursor out of window
+    /// </summary>
     void Start()
     {
         SetCursorState(false);
     }
+    /// <summary>
+    /// Access controller script
+    /// </summary>
     void Awake()
     {
         ControlFirstPerson = GetComponent<FirstPersonController>();
     }
 
-
+    /// <summary>
+    /// Raycast
+    /// </summary>
     void Update()
     {
         //Store info of Raycast hitting objects
@@ -95,6 +105,9 @@ public class Player_Behaviour : MonoBehaviour
             ResetRaycast();
         }
     }
+    /// <summary>
+    /// Clear all messages from screen and reset currentNPCs
+    /// </summary>
     private void ResetRaycast()
     {
         canInteract = false;
@@ -104,6 +117,9 @@ public class Player_Behaviour : MonoBehaviour
         currentRun = null;
         InteractMessage.text = null;
     }
+    /// <summary>
+    /// What to do when interact is pressed
+    /// </summary>
     public void OnInteract()
     {
         if (canInteract)
@@ -130,14 +146,18 @@ public class Player_Behaviour : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Activate the conversation window
+    /// </summary>
     public void StartConvo()
     {
         ConvoPanel.SetActive(true);
-        SetMoveCamState(false);
-        SetCursorState(true);
+        SetMoveCamState(false);//Lock camera and movement
+        SetCursorState(true);//Turn on cursor
         InteractMessageState.SetActive(false);
 
     }
+    //Opposite of StartConvo
     public void EndConvo()
     {
         ConvoPanel.SetActive(false);
@@ -145,12 +165,18 @@ public class Player_Behaviour : MonoBehaviour
         SetCursorState(false);
         InteractMessageState.SetActive(true);
     }
+    /// <summary>
+    /// For use with conversations different from convo panel
+    /// </summary>
     public void ConversationStart()
     {
         SetMoveCamState(false);
         SetCursorState(true);
         InteractMessageState.SetActive(false);
     }
+    /// <summary>
+    /// For use with conversations different from convo panel
+    /// </summary>
     public void ConversationEnd()
     {
         SetMoveCamState(true);
@@ -185,6 +211,9 @@ public class Player_Behaviour : MonoBehaviour
             Cursor.visible = false;
         }
     }
+    /// <summary>
+    /// Stop game time, pause game
+    /// </summary>
     public void OnPause()
     {
         //Debug.Log("Paused?");
@@ -201,8 +230,4 @@ public class Player_Behaviour : MonoBehaviour
             InteractMessageState.SetActive(true);
         }
     }
-    // public void OnWin()
-    // {
-        
-    // }
 }

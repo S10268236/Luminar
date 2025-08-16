@@ -2,12 +2,17 @@
 
 public class NormalsReplacementShader : MonoBehaviour
 {
+    //Input for normal shaders
     [SerializeField]
     Shader normalsShader;
-
+    //Render texture input
     private RenderTexture renderTexture;
+    //New camera set
     private new Camera camera;
 
+    /// <summary>
+    /// Adjust camera to render textures
+    /// </summary>
     private void Start()
     {
         Camera thisCamera = GetComponent<Camera>();

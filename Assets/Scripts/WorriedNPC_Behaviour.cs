@@ -5,12 +5,17 @@ using UnityEngine.AI;
 
 public class WorriedNPC_Behaviour : MonoBehaviour
 {
+    //Set Navmesh vaiable
     NavMeshAgent NavPoint;
+    //Input for Player target
     [SerializeField]
     Transform Target;
+    //Display current state
     [SerializeField]
     string currentState = "Idle";
+    //Array for patrol points
     public Transform[] patrolPoints;
+    //Track which point is being patrolled currently
     private int currentPatrolIndex = 0;
     //Trigger for whether NPC returns to patrol or is pacified and returns to original position
     public bool QuestSolved = false;
@@ -19,6 +24,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     public Player_Behaviour PlayerObject;
     //Access Interact Message for enabling and disabling
     public GameObject InteractMessage;
+    //Input for Player position
     [SerializeField]
     Transform PlayerPosition;
     //Checks if player is within collider
@@ -36,7 +42,9 @@ public class WorriedNPC_Behaviour : MonoBehaviour
     //Control Animations
     private Animator mAnimation;
 
-
+    /// <summary>
+    /// Set navmeshagent and animator
+    /// </summary>
     void Awake()
     {
         NavPoint = GetComponent<NavMeshAgent>();
@@ -44,15 +52,21 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         mAnimation = GetComponent<Animator>();
 
     }
+    /// <summary>
+    /// Begin coroutine
+    /// </summary>
     void Start()
     {
         StartCoroutine(currentState);
     }
+    /// <summary>
+    /// Make npc turn to face player
+    /// </summary>
     public void LookAtPlayer()
     {
         if (mAnimation != null)
         {
-            mAnimation.SetBool("Walk",false);
+            mAnimation.SetBool("Walk", false);
         }
         StopAllCoroutines();
         transform.LookAt(PlayerPosition.position);
@@ -62,6 +76,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         //Display Conversation window
         PlayerObject.StartConvo();
     }
+    /// <summary>
+    /// Trigger idle animation and idle phase
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Idle()
     {
         //Debug.Log("Going Idle");
@@ -80,6 +98,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             StartCoroutine(SwitchState("Patrolling"));
         }
     }
+    /// <summary>
+    /// If player in triggerzone, approach and activate walk animation
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ApproachPlayer()
     {
         //Debug.Log("Chasing!");
@@ -93,7 +115,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             {
                 mAnimation.SetBool("Walk", true);
             }
-            if (Vector3.Distance(transform.position, Target.position) <= 3f && !hasInteracted)
+            if (Vector3.Distance(transform.position, Target.position) <= 3f && !hasInteracted)//if distance to player less than float and has not interacted
             {
                 if (mAnimation != null)
                 {
@@ -118,6 +140,11 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Switch between states
+    /// </summary>
+    /// <param name="newState"></param>
+    /// <returns></returns>
     IEnumerator SwitchState(string newState)
     {
         if (currentState == newState)
@@ -127,6 +154,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
         currentState = newState;
         StartCoroutine(currentState);
     }
+    /// <summary>
+    /// Activate walk animation and Patrol state
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Patrolling()
     {
         //Debug.Log("Starting Patrol");
@@ -139,7 +170,7 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             }
             Transform CurrentPatrolPoint = patrolPoints[currentPatrolIndex];
             NavPoint.SetDestination(CurrentPatrolPoint.position);
-            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 1f)
+            while (Vector3.Distance(transform.position, CurrentPatrolPoint.position) >= 1f)//if distance to current patrol point greater than float, keep going
             {
                 if (Target != null)
                 {
@@ -149,10 +180,14 @@ public class WorriedNPC_Behaviour : MonoBehaviour
                 yield return null;
             }
             //Debug.Log("Next Point!");
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;//Make patrol point wrap around back to start
             yield return StartCoroutine(SwitchState("Idle"));
         }
     }
+    /// <summary>
+    /// Set target to Player
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -161,6 +196,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             Target = other.transform;
         }
     }
+    /// <summary>
+    /// Reset target and track whther has interacted
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerExit(Collider other)
     {
         
@@ -179,6 +218,10 @@ public class WorriedNPC_Behaviour : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Return NPC to initial position
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Pacified()
     {
         if (FinishedConvo)
